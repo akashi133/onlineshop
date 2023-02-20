@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 //Components
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 
-import { logo } from './assets';
-import { FirebaseDb } from './db/db';
+import { logo } from '../../assets';
+import { FirebaseDb } from '../../db/db';
 import { useSelector } from 'react-redux';
-import { RootState } from './store/store';
-import Card from './components/Card';
+import { RootState } from '../../store/store';
+import Card from '../../components/Card';
 
 const styles = {
   app: 'text-center',
@@ -31,12 +31,12 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <Header logo={logo} />
       <h1 className={styles.h1}>Ruslan yebishe</h1>
-      {products?.map((item)=> (
-        <Card {...item} />
-      ))}
-      <Footer />
+      <div className="grid grid-cols-3">
+        {products?.map((item, idx) => (
+          <Card {...item} key={idx} />
+        ))}
+      </div>
     </div>
   );
 }

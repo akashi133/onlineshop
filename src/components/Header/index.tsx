@@ -1,4 +1,7 @@
 import { FC } from 'react';
+import { useSelector } from 'react-redux';
+import AuthDB from '../../db/auth';
+import { RootState } from '../../store/store';
 
 interface HeaderProps {
   logo?: string;
@@ -7,10 +10,32 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ logo, image, popup }) => {
+  const { user } = useSelector((state: RootState) => state.user);
+  const { googleAuth, logout } = AuthDB();
+
+  const handClick = () => {
+    if (!user) {
+      googleAuth();
+    } else {
+      logout();
+    }
+  };
+
+  console.log(user);
+
   return (
     <div className="flex justify-between items-center w-full p-2 bg-gray-500 rounded-b-2xl shadow-xl">
-      <img src={logo} alt="ruslan pidr" className="w-[100px] h-[100px] rounded-xl" />
-      <button className="p-4 px-10 rounded-2xl bg-black text-white">Login</button>
+      <img src={logo} alt="ruslan4ik" className="w-[100px] h-[100px] rounded-xl" />
+      {user ? (
+        <>
+          <span className='text-white'>{user.displayName}</span>
+          <img src={user.photoURL} alt="" />
+        </>
+      ) : null}
+
+      <button onClick={handClick} className="p-4 px-10 rounded-2xl bg-black text-white">
+        {user ? 'LogOut' : 'LogIn'}
+      </button>
     </div>
   );
 };
